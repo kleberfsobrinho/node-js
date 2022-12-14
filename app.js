@@ -8,7 +8,9 @@ const app = express();
 
 // 1) MIDDLEWARES
 
-app.use(morgan('dev'));
+if(process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev')); 
+}
 app.use(express.json()); // puts the body on the request
 app.use(express.static('./public')) // serve static files
 
