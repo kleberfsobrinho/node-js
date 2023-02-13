@@ -25,6 +25,19 @@ exports.getAllTours = async (req, res) => {
             query = query.sort('-createdAt')
         }
 
+        // FIELD LIMITING
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ')
+            query = query.select(fields)
+        } else {
+            query = query.select('-__v')
+        }
+
+        // PAGINATION
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+        const skip = (page - 1) * limit
+
         // EXECUTE QUERY
         const tours = await query
     
